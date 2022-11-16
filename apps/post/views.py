@@ -57,11 +57,8 @@ class PostDetailGenericsAPIView(generics.GenericAPIView):
 
     
     def get(self, request, pk):
-        try:
-            post = Post.objects.get(pk=pk)
-        except Post.DoesNotExist:
-            raise exceptions.NotFound("Post does not exsist")
-        serializers = PostSerializer(post)
+        post = self.get_object(pk)
+        serializers = self.get_serializer(post)
         return Response(data=serializers.data, status=status.HTTP_200_OK)
     
 
@@ -83,7 +80,7 @@ class PostDetailGenericsAPIView(generics.GenericAPIView):
     
     def put(self, request, pk):
         post = self.get_object(pk)
-        serializer = PostSerializer(post, data=request.data)
+        serializer = self.get_serializer(post, data=request.data)
         if serializer.is_valid():
             serializer.save()
             return Response(serializer.data, status=status.HTTP_200_OK)
