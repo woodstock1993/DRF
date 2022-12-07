@@ -172,3 +172,13 @@ class CommentView(generics.GenericAPIView):
         queryset = self.get_queryset()
         serializers = self.get_serializer(queryset, many=True)
         return Response(data=serializers.data, status=status.HTTP_200_OK)
+
+
+class CommentDetailView(generics.GenericAPIView, mixins.RetrieveModelMixin):
+    serializer_class = CommentSerializer
+    queryset = Comment.objects.all()
+
+    lookup_field = 'author_id'
+
+    def get(self, request, *args, **kwargs):
+        return self.retrieve(request, *args, **kwargs)

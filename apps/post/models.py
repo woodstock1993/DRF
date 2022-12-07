@@ -9,7 +9,9 @@ class Post(models.Model):
         verbose_name="아이디",
     )
     title = models.CharField(max_length=128, verbose_name="블로그 제목")
-    author = models.ForeignKey(Member, on_delete=models.CASCADE, related_name='author')    
+    like_count = models.PositiveIntegerField(default=0)
+    author = models.ForeignKey(Member, on_delete=models.CASCADE, related_name='author')
+    like_member = models.ManyToManyField(Member, blank=True, related_name='like_post')
     created = models.DateTimeField(auto_now_add=True, verbose_name="생성 일시")
     updated = models.DateTimeField(auto_now=True, verbose_name="업데이트 일시")
 

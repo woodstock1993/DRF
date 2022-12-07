@@ -11,7 +11,7 @@ from rest_framework.routers import DefaultRouter
 router = DefaultRouter()
 router.register(r'viewset-post', PostViewSet)
 
-from .views import CommentView
+from .views import CommentView, CommentDetailView
 
 urlpatterns = [
     path('post/', PostListAPIView.as_view()),
@@ -29,5 +29,6 @@ urlpatterns = [
     path('viewset/post', post_list),
     path('viewset/post/<int:pk>', post_detail),
 
-    path('comment/', CommentView.as_view(), name='comment_list')
+    path('comment/', CommentView.as_view(), name='comment_list'),
+    path('comment/<int:author_id>', CommentDetailView.as_view())
 ]
